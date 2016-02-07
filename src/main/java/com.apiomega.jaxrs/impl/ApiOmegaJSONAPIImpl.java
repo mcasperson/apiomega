@@ -7,14 +7,10 @@ import com.yahoo.elide.ElideResponse;
 import com.yahoo.elide.audit.Logger;
 import com.yahoo.elide.audit.Slf4jLogger;
 import com.yahoo.elide.core.DataStore;
-import com.yahoo.elide.datastores.hibernate5.HibernateStore;
-import org.hibernate.SessionFactory;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import javax.inject.Inject;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import java.util.regex.Matcher;
@@ -29,13 +25,11 @@ import static com.google.common.base.Preconditions.checkState;
 public class ApiOmegaJSONAPIImpl implements ApiOmegaJSONAPI {
 
     /**
-     * This is the JPA entity manager factory that we will pass to Elide.
-     * Note that we assume that this entity manager is actually a hibernate 5
-     * session factory. This assumption is try when deployed to Wildfly 10,
-     * which is the basis of the ApiOmega server.
+     * Get a Elide data store. It is expected that projects extending this class
+     * will provide a data store via CDI.
      */
-    @PersistenceContext
-    private EntityManagerFactory entityManagerFactory;
+    @Inject
+    private DataStore dataStore;
 
     @Override
     public String jsonApiGet(@Context final UriInfo uriInfo) {
@@ -45,10 +39,7 @@ public class ApiOmegaJSONAPIImpl implements ApiOmegaJSONAPI {
 
         checkState(matcher.find(), "APIOMEGA-URL-0001");
 
-        final SessionFactory sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
-
         /* Takes a hibernate session factory */
-        final DataStore dataStore = new HibernateStore(sessionFactory);
         final Logger logger = new Slf4jLogger();
         final Elide elide = new Elide(logger, dataStore);
 
