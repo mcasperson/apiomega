@@ -31,4 +31,10 @@ public class ApiOmegaConstants {
                     "/(?<vendor>[A-Za-z0-9]+)" +
                     "/(?<device>[A-Za-z0-9]+)" +
                     "/(?<" + JSON_API_PATH_GROUP + ">.*)");
+
+    /**
+     * What to populate the excpetion with when an action relationship is attempted to be accessed
+     */
+    public static final String ACTION_UNSUPPORTED_OPERATION_MESSAGE =
+            "APIOMEGA-URL-0002: You can not get the value of an action relationship. This relation is virtual, and has no associated information.";
 }
