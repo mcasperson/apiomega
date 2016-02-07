@@ -10,6 +10,7 @@ import com.yahoo.elide.core.DataStore;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
@@ -22,6 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
  * for processing.
  */
 @Stateless  // We want to make use of EJB transactions
+@Path("/")
 public class ApiOmegaJSONAPIImpl implements ApiOmegaJSONAPI {
 
     /**

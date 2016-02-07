@@ -10,6 +10,8 @@ import org.fourthline.cling.model.meta.RemoteDevice;
 import org.fourthline.cling.registry.Registry;
 import org.fourthline.cling.registry.RegistryListener;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
 import java.util.Collection;
@@ -24,6 +26,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * An implementation of a UPnP discovery service based on the Cling library
  */
+@Named
+@ApplicationScoped
 public class UPnpScannerImpl implements UPnpScanner {
     private static final Logger LOGGER = Logger.getLogger(UPnpScannerImpl.class.toString());
     private static final int DISCOVERY_TIME = 10000;

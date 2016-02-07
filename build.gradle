@@ -1,58 +1,12 @@
 buildscript {
     repositories {
+        mavenLocal()
         maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
+        classpath 'com.apiomega:build:0.0.1-SNAPSHOT'
         classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'propdeps'
-apply plugin: 'propdeps-maven'
-apply plugin: 'propdeps-idea'
-apply plugin: 'propdeps-eclipse'
-
-repositories {
-    mavenCentral()
-    maven {
-        url 'http://4thline.org/m2'
-    }
-}
-
-group = 'com.apiomega'
-version = '0.0.1'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-def elideVersion = '1.0.0.19'
-def apacheHttpComponentsVersion = '4.5.1'
-def apacheCommonsIoVersion = '2.4'
-def googleGuavaVersion = '19.0'
-def clingVersion = '2.0.1'
-def junitVersion = '4.12'
-
-dependencies {
-    provided 'javax:javaee-api:7.0'
-
-    compile 'com.yahoo.elide:elide-core:' + elideVersion
-    compile 'com.yahoo.elide:elide-datastore-inmemorydb:' + elideVersion
-    compile 'org.apache.httpcomponents:httpclient:' + apacheHttpComponentsVersion
-    compile 'org.apache.httpcomponents:httpmime:' + apacheHttpComponentsVersion
-    compile 'commons-io:commons-io:' + apacheCommonsIoVersion
-    compile 'com.google.guava:guava:' + googleGuavaVersion
-    compile 'org.fourthline.cling:cling-core:' + clingVersion
-
-    testCompile 'junit:junit:' + junitVersion
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.10'
-}
-
-/*
-    Required by Heroku
- */
-task stage {
-    dependsOn build
-}
+apply plugin: 'com.apiomega.apiomegalibrary'
