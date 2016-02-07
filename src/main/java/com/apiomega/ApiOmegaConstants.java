@@ -17,6 +17,11 @@ public class ApiOmegaConstants {
     public static final String ACTION_RELATIONSHIP_PREFIX = "action_";
 
     /**
+     * The regex group that contains the JSON API component of a url
+     */
+    public static final String JSON_API_PATH_GROUP = "jsonApiPath";
+
+    /**
      * The context of the ApiOmega implementation
      */
     public static final Pattern API_OMEGA_PATH_FORMAT =
@@ -24,5 +29,6 @@ public class ApiOmegaConstants {
                     "^(/(?<author>[A-Za-z0-9]+))?" +
                     "/(?<version>v\\d+\\.\\d+\\.\\d+)" +
                     "/(?<vendor>[A-Za-z0-9]+)" +
-                    "/(?<device>[A-Za-z0-9]+)");
+                    "/(?<device>[A-Za-z0-9]+)" +
+                    "/(?<" + JSON_API_PATH_GROUP + ">.*)");
 }
