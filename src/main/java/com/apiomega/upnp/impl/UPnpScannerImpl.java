@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.net.URL;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -34,7 +35,7 @@ public class UPnpScannerImpl implements UPnpScanner {
 
         final Pattern pattern = Pattern.compile(displayNameRegex);
 
-        final ConcurrentHashMap<URL, String> retValue = new ConcurrentHashMap<URL, String>();
+        final Collection<URL> retValue = new ConcurrentSkipListSet <URL>();
 
         // UPnP discovery is asynchronous, we need a callback
         final RegistryListener listener = new RegistryListener() {
@@ -46,7 +47,7 @@ public class UPnpScannerImpl implements UPnpScanner {
                 );
 
                 if (pattern.matcher(device.getDisplayString()).matches()) {
-                    retValue.put(device.getIdentity().getDescriptorURL(), device.getDisplayString());
+                    retValue.add(device.getIdentity().getDescriptorURL());
                 }
             }
 
@@ -120,6 +121,6 @@ public class UPnpScannerImpl implements UPnpScanner {
         LOGGER.log(Level.INFO, "Stopping Cling...");
         upnpService.shutdown();
 
-        return retValue.newKeySet();
+        return retValue;
     }
 }

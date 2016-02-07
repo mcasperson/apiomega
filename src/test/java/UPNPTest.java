@@ -1,3 +1,5 @@
+import com.apiomega.upnp.UPnpScanner;
+import com.apiomega.upnp.impl.UPnpScannerImpl;
 import org.fourthline.cling.UpnpService;
 import org.fourthline.cling.UpnpServiceImpl;
 import org.fourthline.cling.model.message.header.STAllHeader;
@@ -7,10 +9,20 @@ import org.fourthline.cling.registry.Registry;
 import org.fourthline.cling.registry.RegistryListener;
 import org.junit.Test;
 
+import java.net.URL;
+import java.util.Collection;
+
 /**
  * Created by Matthew on 7/02/2016.
  */
 public class UPNPTest {
+    @Test
+    public void testURLDiscovery() {
+        final UPnpScanner uPnpScanner = new UPnpScannerImpl();
+        final Collection<URL> urls = uPnpScanner.getDeviceUrls("^LG Electronics LG TV 1\\.0$");
+        System.out.println(urls);
+    }
+
     @Test
     public void testUPNP() throws InterruptedException {
         // UPnP discovery is asynchronous, we need a callback
