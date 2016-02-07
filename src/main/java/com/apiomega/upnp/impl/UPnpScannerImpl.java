@@ -13,11 +13,11 @@ import org.fourthline.cling.registry.RegistryListener;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
 import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -33,64 +33,72 @@ public class UPnpScannerImpl implements UPnpScanner {
     public Collection<URL> getDeviceUrls(@NotNull final String displayNameRegex) {
         checkArgument(StringUtils.isNotBlank(displayNameRegex));
 
+        final Collection<RemoteDevice> devices = getDevices(displayNameRegex);
+        return devices.stream()
+                .map(n -> n.getIdentity().getDescriptorURL())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<RemoteDevice> getDevices(@NotNull final String displayNameRegex) {
         final Pattern pattern = Pattern.compile(displayNameRegex);
 
-        final Collection<URL> retValue = new ConcurrentSkipListSet <URL>();
+        final Collection<RemoteDevice> retValue = new ConcurrentSkipListSet <RemoteDevice>();
 
         // UPnP discovery is asynchronous, we need a callback
         final RegistryListener listener = new RegistryListener() {
 
             public void remoteDeviceDiscoveryStarted(Registry registry,
                                                      RemoteDevice device) {
-                LOGGER.log(Level.INFO, 
+                LOGGER.log(Level.INFO,
                         "Discovery started: " + device.getDisplayString()
                 );
 
                 if (pattern.matcher(device.getDisplayString()).matches()) {
-                    retValue.add(device.getIdentity().getDescriptorURL());
+                    retValue.add(device);
                 }
             }
 
             public void remoteDeviceDiscoveryFailed(Registry registry,
                                                     RemoteDevice device,
                                                     Exception ex) {
-                LOGGER.log(Level.INFO, 
+                LOGGER.log(Level.INFO,
                         "Discovery failed: " + device.getDisplayString() + " => " + ex
                 );
             }
 
             public void remoteDeviceAdded(Registry registry, RemoteDevice device) {
-                LOGGER.log(Level.INFO, 
+                LOGGER.log(Level.INFO,
                         "Remote device available: " + device.getDisplayString()
                 );
             }
 
             public void remoteDeviceUpdated(Registry registry, RemoteDevice device) {
-                LOGGER.log(Level.INFO, 
+                LOGGER.log(Level.INFO,
                         "Remote device updated: " + device.getDisplayString()
                 );
             }
 
             public void remoteDeviceRemoved(Registry registry, RemoteDevice device) {
-                LOGGER.log(Level.INFO, 
+                LOGGER.log(Level.INFO,
                         "Remote device removed: " + device.getDisplayString()
                 );
             }
 
             public void localDeviceAdded(Registry registry, LocalDevice device) {
-                LOGGER.log(Level.INFO, 
+                LOGGER.log(Level.INFO,
                         "Local device added: " + device.getDisplayString()
                 );
             }
 
             public void localDeviceRemoved(Registry registry, LocalDevice device) {
-                LOGGER.log(Level.INFO, 
+                LOGGER.log(Level.INFO,
                         "Local device removed: " + device.getDisplayString()
                 );
             }
 
             public void beforeShutdown(Registry registry) {
-                LOGGER.log(Level.INFO, 
+                LOGGER.log(Level.INFO,
                         "Before shutdown, the registry has devices: "
                                 + registry.getDevices().size()
                 );

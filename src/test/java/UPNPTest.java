@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.Collection;
 
 /**
- * Created by Matthew on 7/02/2016.
+ * Tests of the UPnP service
  */
 public class UPNPTest {
     @Test
