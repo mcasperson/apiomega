@@ -24,26 +24,33 @@
     <!--
         This will log each request for auditing purposes
     -->
-    <servlet>
-        <servlet-name>LoggingFilter</servlet-name>
-        <servlet-class>com.apiomega.filter.LoggingFilter</servlet-class>
-    </servlet>
+    <filter>
+        <filter-name>LoggingFilter</filter-name>
+        <filter-class>com.apiomega.filter.LoggingFilter</filter-class>
+    </filter>
 
-    <servlet-mapping>
-        <servlet-name>LoggingFilter</servlet-name>
+    <filter-mapping>
+        <filter-name>LoggingFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </servlet-mapping>
+    </filter-mapping>
 
     <!--
         This will enforce the URL structure
     -->
-    <servlet>
-        <servlet-name>UrlValidationFilter</servlet-name>
-        <servlet-class>com.apiomega.filter.UrlValidationFilter</servlet-class>
-    </servlet>
+    <filter>
+        <filter-name>UrlValidationFilter</filter-name>
+        <filter-class>com.apiomega.filter.UrlValidationFilter</filter-class>
+    </filter>
 
-    <servlet-mapping>
-        <servlet-name>UrlValidationFilter</servlet-name>
+    <filter-mapping>
+        <filter-name>UrlValidationFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </servlet-mapping>
+    </filter-mapping>
+
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
 </web-fragment>
