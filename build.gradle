@@ -6,7 +6,7 @@ buildscript {
         maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
-        classpath 'com.apiomega:build:0.0.3-SNAPSHOT'
+        classpath 'com.apiomega:build:0.0.4-SNAPSHOT'
         classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
     }
 }
