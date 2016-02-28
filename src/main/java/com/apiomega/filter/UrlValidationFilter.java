@@ -32,8 +32,8 @@ public class UrlValidationFilter implements Filter {
             final HttpServletRequest httpServletRequest = (HttpServletRequest)request;
             final HttpServletResponse httpServletResponse = (HttpServletResponse)response;
 
-            final URL url = new URL(httpServletRequest.getRequestURI());
-            final Matcher matcher = ApiOmegaConstants.API_OMEGA_PATH_FORMAT.matcher(url.getPath());
+            final String url = httpServletRequest.getRequestURI();
+            final Matcher matcher = ApiOmegaConstants.API_OMEGA_PATH_FORMAT.matcher(url);
             final boolean found = matcher.find();
 
             if (!found) {

@@ -15,5 +15,6 @@ public class ApiOmegaConstants {
                     "/(?<version>v\\d+\\.\\d+\\.\\d+)" +
                     "/(?<vendor>[A-Za-z0-9]+)" +
                     "/(?<device>[A-Za-z0-9]+)" +
+                    "/(?<function>(api|docs))" +
                     "/(?<restOfUrl>.*)$");
 }
