@@ -17,8 +17,8 @@
         http://keycloak.github.io/docs/userguide/keycloak-server/html/ch08.html#d4e919
     -->
     <login-config>
-        <auth-method>KEYCLOAK</auth-method>
-        <realm-name>this is ignored currently</realm-name>
+        <auth-method>BASIC</auth-method>
+        <realm-name>APIOmega Realm</realm-name>
     </login-config>
 
     <!--
