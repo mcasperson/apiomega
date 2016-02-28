@@ -1,6 +1,8 @@
 buildscript {
     repositories {
         mavenLocal()
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
         maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
@@ -10,3 +12,5 @@ buildscript {
 }
 
 apply plugin: 'com.apiomega.apiomegalibrary'
+
+

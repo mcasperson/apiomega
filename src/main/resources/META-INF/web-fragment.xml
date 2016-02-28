@@ -1,14 +1,5 @@
 <web-fragment>
     <!--
-        This will register the JAX-RS servlet against all URLs
-        See https://docs.jboss.org/author/display/AS7/JAX-RS+Reference+Guide
-    -->
-    <servlet-mapping>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
-        <url-pattern>/*</url-pattern>
-    </servlet-mapping>
-
-    <!--
         This will add security to all urls
     -->
     <security-constraint>
@@ -29,4 +20,30 @@
         <auth-method>KEYCLOAK</auth-method>
         <realm-name>this is ignored currently</realm-name>
     </login-config>
+
+    <!--
+        This will log each request for auditing purposes
+    -->
+    <servlet>
+        <servlet-name>LoggingFilter</servlet-name>
+        <servlet-class>com.apiomega.filter.LoggingFilter</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoggingFilter</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+    <!--
+        This will enforce the URL structure
+    -->
+    <servlet>
+        <servlet-name>UrlValidationFilter</servlet-name>
+        <servlet-class>com.apiomega.filter.UrlValidationFilter</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UrlValidationFilter</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
 </web-fragment>
